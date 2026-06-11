@@ -390,7 +390,7 @@ export default function App() {
                 variant="outline"
                 onClick={handleBack}
                 disabled={currentStep === 1}
-                className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm border-[#E31837] text-[#E31837] hover:bg-[#E31837]/5 disabled:border-gray-200 disabled:text-gray-300"
               >
                 Back
               </Button>
