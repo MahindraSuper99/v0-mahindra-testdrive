@@ -385,9 +385,8 @@ export default function App() {
             <div className="flex justify-between mt-6 sm:mt-8 pt-4 border-t border-gray-100 gap-3">
               <Button
                 variant="outline"
-                onClick={handleBack}
-                disabled={currentStep === 1}
-                className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm border-[#E31837] text-[#E31837] hover:bg-[#E31837]/5 disabled:border-gray-200 disabled:text-gray-300"
+                onClick={currentStep > 1 ? handleBack : undefined}
+                className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm border-2 border-[#E31837] text-[#E31837] hover:bg-[#E31837]/10 !opacity-100"
               >
                 Back
               </Button>
@@ -395,15 +394,14 @@ export default function App() {
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm bg-[#E31837] hover:bg-[#c41530] text-white"
+                  className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm bg-[#E31837] hover:bg-[#c41530] text-white !opacity-100"
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit'}
                 </Button>
               ) : (
                 <Button
                   onClick={handleNext}
-                  disabled={!canProceed()}
-                  className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm bg-[#E31837] hover:bg-[#c41530] text-white disabled:bg-gray-300"
+                  className="flex-1 sm:flex-none h-12 sm:h-11 text-base sm:text-sm bg-[#E31837] hover:bg-[#c41530] text-white !opacity-100"
                 >
                   Next
                 </Button>
