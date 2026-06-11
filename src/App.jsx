@@ -210,10 +210,7 @@ export default function App() {
           <Card className="bg-[#222222] shadow-xl border-0">
             <CardContent className="p-6 sm:p-8">
               <div className="text-center mb-6 sm:mb-8">
-                <div className="flex flex-col items-center mb-4">
-                  <img src="/mahindra-logo.webp" alt="Mahindra" className="h-10 sm:h-12 w-auto mx-auto" />
-                  <p className="text-white font-light text-base sm:text-lg tracking-[0.3em] lowercase mt-1">mahindra</p>
-                </div>
+                <img src="/mahindra-logo.webp" alt="Mahindra" className="h-12 sm:h-16 w-auto mx-auto mb-4" />
                 <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">
                   Test Drive Experience Survey
                 </h1>
