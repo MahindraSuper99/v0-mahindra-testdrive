@@ -113,10 +113,6 @@ export default function App() {
   };
 
   const handleSubmit = async () => {
-    if (hasLowRating() && !additionalFeedback.trim()) {
-      setValidationError('Please share your feedback to help us improve');
-      return;
-    }
     if (!feedbackConsent) {
       setValidationError('Please consent to data usage before submitting');
       return;
@@ -169,11 +165,10 @@ export default function App() {
 
   const getStepDescription = () => {
     if (currentStep === 1) return 'On a scale of 0-10, where 0 is not at all likely and 10 is extremely likely';
-    if (currentStep === 2) return 'Rate your experience with the Mahindra vehicle you test drove';
+    if (currentStep === 2) return 'Rate your experience with the Mahindra vehicle during your test drive';
     if (currentStep === 3) return 'Rate your overall test drive experience at the dealership';
     if (currentStep === 4 && needsReasonStep) return 'You may select more than one reason';
-    if (hasLowRating()) return 'Your feedback is required to help us understand how we can improve';
-    return 'Optional - Share any additional comments';
+    return 'Optional - Share any additional comments about your test drive';
   };
 
   const Header = () => (
@@ -376,7 +371,7 @@ export default function App() {
                 onChange={setAdditionalFeedback}
                 consent={feedbackConsent}
                 onConsentChange={setFeedbackConsent}
-                isRequired={hasLowRating()}
+                isRequired={false}
               />
             )}
 
