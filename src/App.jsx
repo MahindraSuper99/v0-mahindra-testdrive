@@ -212,7 +212,7 @@ export default function App() {
               <div className="text-center mb-6 sm:mb-8">
                 <div className="flex flex-col items-center mb-4">
                   <img src="/mahindra-logo.webp" alt="Mahindra" className="h-10 sm:h-12 w-auto mx-auto" />
-                  <p className="text-[#E31837] font-bold text-base sm:text-lg tracking-[0.25em] uppercase mt-1">MAHINDRA</p>
+                  <p className="text-[#1a1a1a] dark:text-white font-light text-base sm:text-lg tracking-[0.3em] lowercase mt-1">mahindra</p>
                 </div>
                 <h1 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] mb-1">
                   Test Drive Experience Survey
