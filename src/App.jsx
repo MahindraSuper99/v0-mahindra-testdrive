@@ -34,6 +34,11 @@ export default function App() {
     return params.get('id') || null;
   }, []);
 
+  const dealerName = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('dealer') || null;
+  }, []);
+
   const isExpired = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
     const expires = params.get('expires');
@@ -118,6 +123,7 @@ export default function App() {
       const submissionData = {
         name: `Test Drive Survey Response - ${now.toLocaleDateString()}`,
         surveyId: surveyId,
+        dealer: dealerName,
         submittedDate: now.toISOString(),
         responseType: 'Test Drive Feedback',
         reviewStatus: 'New',
@@ -150,7 +156,7 @@ export default function App() {
   };
 
   const getStepTitle = () => {
-    if (currentStep === 1) return 'How satisfied were you with the vehicle\'s performance, comfort, and features during the test drive?';
+    if (currentStep === 1) return `How satisfied were you with the vehicle's performance, comfort, and features during the test drive${dealerName ? ` at ${dealerName}` : ''}?`;
     if (currentStep === 2) return 'How would you rate your overall Test Drive Experience?';
     if (currentStep === 3 && needsReasonStep) return 'Please select the primary reason(s) for your dissatisfaction';
     return 'Would you like to share any additional feedback about your test drive?';
