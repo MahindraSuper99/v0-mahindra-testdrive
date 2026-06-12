@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { ResponsesBoard } from '@api/BoardSDK.js';
 import { Card, CardContent, CardHeader, CardTitle, Button, Checkbox, Label } from './components/ui-mock';
 import ProgressStepper from './components/ProgressStepper';
-import NPSRating from './components/NPSRating';
 import RatingButtons from './components/RatingButtons';
 import ReasonSelector from './components/ReasonSelector';
 import FeedbackTextarea from './components/FeedbackTextarea';
@@ -20,11 +19,9 @@ export default function App() {
   const [isComplete, setIsComplete] = useState(false);
   const [validationError, setValidationError] = useState('');
 
-  // Q1: NPS Score (0-10)
-  const [npsScore, setNpsScore] = useState(null);
-  // Q2: Vehicle Performance Satisfaction (1-5)
+  // Q1: Vehicle Performance Satisfaction (1-5)
   const [vehicleSatisfaction, setVehicleSatisfaction] = useState(null);
-  // Q3: Overall Test Drive OSAT (1-5)
+  // Q2: Overall Test Drive OSAT (1-5)
   const [overallExperience, setOverallExperience] = useState(null);
   // Dissatisfaction reasons (only shown if OSAT is Poor/Unacceptable)
   const [dissatisfactionReason, setDissatisfactionReason] = useState([]);
@@ -47,14 +44,13 @@ export default function App() {
   }, []);
 
   const hasLowRating = () => {
-    const lowNPS = npsScore !== null && npsScore <= 6;
     const lowVehicleSat = vehicleSatisfaction === 'Dissatisfied' || vehicleSatisfaction === 'Very Dissatisfied';
     const lowOSAT = overallExperience === 'Poor' || overallExperience === 'Unacceptable';
-    return lowNPS || lowVehicleSat || lowOSAT;
+    return lowVehicleSat || lowOSAT;
   };
 
   const needsReasonStep = overallExperience === 'Poor' || overallExperience === 'Unacceptable';
-  const totalSteps = needsReasonStep ? 5 : 4;
+  const totalSteps = needsReasonStep ? 4 : 3;
 
   const vehicleSatOptions = [
     { label: 'Very Satisfied', color: 'bg-[#00c875]' },
@@ -85,10 +81,9 @@ export default function App() {
   ];
 
   const canProceed = () => {
-    if (currentStep === 1) return npsScore !== null;
-    if (currentStep === 2) return vehicleSatisfaction !== null;
-    if (currentStep === 3) return overallExperience !== null;
-    if (currentStep === 4 && needsReasonStep) return true;
+    if (currentStep === 1) return vehicleSatisfaction !== null;
+    if (currentStep === 2) return overallExperience !== null;
+    if (currentStep === 3 && needsReasonStep) return true;
     return true;
   };
 
@@ -126,7 +121,6 @@ export default function App() {
         submittedDate: now.toISOString(),
         responseType: 'Test Drive Feedback',
         reviewStatus: 'New',
-        npsScore: npsScore,
         vehicleSatisfaction: vehicleSatisfaction,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
@@ -156,18 +150,16 @@ export default function App() {
   };
 
   const getStepTitle = () => {
-    if (currentStep === 1) return 'How likely are you to recommend Mahindra to others based on your test drive?';
-    if (currentStep === 2) return 'How satisfied were you with the vehicle\'s performance, comfort, and features during the test drive?';
-    if (currentStep === 3) return 'How would you rate your overall Test Drive Experience?';
-    if (currentStep === 4 && needsReasonStep) return 'Please select the primary reason(s) for your dissatisfaction';
+    if (currentStep === 1) return 'How satisfied were you with the vehicle\'s performance, comfort, and features during the test drive?';
+    if (currentStep === 2) return 'How would you rate your overall Test Drive Experience?';
+    if (currentStep === 3 && needsReasonStep) return 'Please select the primary reason(s) for your dissatisfaction';
     return 'Would you like to share any additional feedback about your test drive?';
   };
 
   const getStepDescription = () => {
-    if (currentStep === 1) return 'On a scale of 0-10, where 0 is not at all likely and 10 is extremely likely';
-    if (currentStep === 2) return 'Rate your experience with the Mahindra vehicle during your test drive';
-    if (currentStep === 3) return 'Rate your overall test drive experience at the dealership';
-    if (currentStep === 4 && needsReasonStep) return 'You may select more than one reason';
+    if (currentStep === 1) return 'Rate your experience with the Mahindra vehicle during your test drive';
+    if (currentStep === 2) return 'Rate your overall test drive experience at the dealership';
+    if (currentStep === 3 && needsReasonStep) return 'You may select more than one reason';
     return 'Optional - Share any additional comments about your test drive';
   };
 
@@ -232,7 +224,7 @@ export default function App() {
                   <FileText className="w-5 h-5 text-[#E31837] flex-shrink-0" />
                   <div>
                     <p className="text-xs text-white/50">Questions</p>
-                    <p className="text-sm font-medium text-white">4 questions</p>
+                    <p className="text-sm font-medium text-white">3 questions</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
@@ -361,11 +353,10 @@ export default function App() {
             <p className="text-xs sm:text-sm text-gray-500 mt-1">{getStepDescription()}</p>
           </CardHeader>
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
-            {currentStep === 1 && <NPSRating value={npsScore} onChange={setNpsScore} />}
-            {currentStep === 2 && <RatingButtons options={vehicleSatOptions} selected={vehicleSatisfaction} onChange={setVehicleSatisfaction} />}
-            {currentStep === 3 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
-            {currentStep === 4 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} />}
-            {((currentStep === 4 && !needsReasonStep) || (currentStep === 5 && needsReasonStep)) && (
+            {currentStep === 1 && <RatingButtons options={vehicleSatOptions} selected={vehicleSatisfaction} onChange={setVehicleSatisfaction} />}
+            {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
+            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} />}
+            {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
               <FeedbackTextarea
                 value={additionalFeedback}
                 onChange={setAdditionalFeedback}
