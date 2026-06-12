@@ -156,10 +156,11 @@ export default function App() {
   };
 
   const getStepTitle = () => {
-    if (currentStep === 1) return `How satisfied were you with the vehicle's performance, comfort, and features during the test drive${dealerName ? ` at ${dealerName}` : ''}?`;
-    if (currentStep === 2) return 'How would you rate your overall Test Drive Experience?';
-    if (currentStep === 3 && needsReasonStep) return 'Please select the primary reason(s) for your dissatisfaction';
-    return 'Would you like to share any additional feedback about your test drive?';
+    const at = dealerName ? ` at ${dealerName}` : '';
+    if (currentStep === 1) return `How satisfied were you with the vehicle's performance, comfort, and features during the test drive${at}?`;
+    if (currentStep === 2) return `How would you rate your overall Test Drive Experience${at}?`;
+    if (currentStep === 3 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
+    return `Would you like to share any additional feedback about your test drive${at}?`;
   };
 
   const getStepDescription = () => {
