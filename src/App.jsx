@@ -73,10 +73,10 @@ export default function App() {
     'Sales Consultant was not knowledgeable about the vehicle',
     'Insufficient time given for the test drive',
     'Vehicle was not clean or well-presented',
-    'Dealership did not explain vehicle features before the drive',
-    'Sales Consultant was not present during the test drive',
+    'The Sales Executive / Consultant did not explain vehicle features before the drive',
+    'The Sales Executive / Consultant was not present during the test drive',
     'Vehicle had a technical issue during the test drive',
-    'Dealership Amenities not satisfactory',
+    'The Sales Executive / Consultant Amenities not satisfactory',
     'Other',
   ];
 
