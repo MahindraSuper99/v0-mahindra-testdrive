@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const pabblyResponse = await fetch(
-      'https://connect.pabbly.com/webhook-listener/webhook/IjU3NmQwNTZhMDYzMDA0MzQ1MjZiIg_3D_3D_pc/IjU3NjcwNTZlMDYzZjA0MzE1MjZhNTUzMDUxM2Ii_pc',
+      'https://connect.pabbly.com/webhook-listener/webhook/IjU3NmQwNTZhMDYzMDA0MzQ1MjZiIg_3D_3D_pc/IjU3NjcwNTY5MDYzNjA0M2M1MjZhNTUzMDUxMzEi_pc',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
