@@ -25,6 +25,7 @@ export default function App() {
   const [overallExperience, setOverallExperience] = useState(null);
   // Dissatisfaction reasons (only shown if OSAT is Poor/Unacceptable)
   const [dissatisfactionReason, setDissatisfactionReason] = useState([]);
+  const [otherReasonText, setOtherReasonText] = useState('');
   // Q4: Additional Feedback
   const [additionalFeedback, setAdditionalFeedback] = useState('');
   const [feedbackConsent, setFeedbackConsent] = useState(false);
@@ -88,7 +89,11 @@ export default function App() {
   const canProceed = () => {
     if (currentStep === 1) return vehicleSatisfaction !== null;
     if (currentStep === 2) return overallExperience !== null;
-    if (currentStep === 3 && needsReasonStep) return true;
+    if (currentStep === 3 && needsReasonStep) {
+      if (dissatisfactionReason.length === 0) return false;
+      if (dissatisfactionReason.includes('Other') && !otherReasonText.trim()) return false;
+      return true;
+    }
     return true;
   };
 
@@ -130,6 +135,7 @@ export default function App() {
         vehicleSatisfaction: vehicleSatisfaction,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
+        otherReasonDetail: dissatisfactionReason.includes('Other') ? sanitizeInput(otherReasonText) : null,
         hasLowRating: hasLowRating(),
         notes: sanitizeInput(additionalFeedback),
         popiaConsent: popiaConsent,
@@ -362,7 +368,7 @@ export default function App() {
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
             {currentStep === 1 && <RatingButtons options={vehicleSatOptions} selected={vehicleSatisfaction} onChange={setVehicleSatisfaction} />}
             {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
-            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} />}
+            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} />}
             {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
               <FeedbackTextarea
                 value={additionalFeedback}
