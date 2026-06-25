@@ -28,6 +28,7 @@ export default function App() {
   const [otherReasonText, setOtherReasonText] = useState('');
   // Q4: Additional Feedback
   const [additionalFeedback, setAdditionalFeedback] = useState('');
+  const [wantsToComment, setWantsToComment] = useState(null);
   const [feedbackConsent, setFeedbackConsent] = useState(false);
 
   const surveyId = useMemo(() => {
@@ -376,6 +377,8 @@ export default function App() {
                 consent={feedbackConsent}
                 onConsentChange={setFeedbackConsent}
                 isRequired={false}
+                wantsToComment={wantsToComment}
+                onWantsToCommentChange={setWantsToComment}
               />
             )}
 

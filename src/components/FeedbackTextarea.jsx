@@ -1,23 +1,54 @@
 import { Textarea, Checkbox, Label } from './ui-mock';
 
-export default function FeedbackTextarea({ value, onChange, consent, onConsentChange, isRequired = false }) {
+export default function FeedbackTextarea({ value, onChange, consent, onConsentChange, isRequired = false, wantsToComment, onWantsToCommentChange }) {
   return (
     <div className="space-y-4 sm:space-y-5">
-      <div className="space-y-2 sm:space-y-3">
-        <Textarea
-          id="feedback"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Share your thoughts with us..."
-          className="min-h-[120px] sm:min-h-[140px] text-base border-gray-200 focus:border-[#E31837] focus:ring-[#E31837]"
-        />
-        {isRequired && (
-          <p className="text-xs text-[#E31837] flex items-center gap-1">
-            <span className="inline-block w-1 h-1 bg-[#E31837] rounded-full"></span>
-            Your feedback is required based on your ratings
-          </p>
-        )}
+
+      {/* Yes / No question */}
+      <div className="space-y-3">
+        <p className="text-sm font-medium text-[#1a1a1a]">
+          Would you like to leave a comment? <span className="font-normal text-gray-500">(optional)</span>
+        </p>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => onWantsToCommentChange(true)}
+            className={`flex-1 h-11 rounded-lg border-2 text-sm font-semibold transition-all ${
+              wantsToComment === true
+                ? 'bg-[#E31837] border-[#E31837] text-white'
+                : 'border-gray-200 text-gray-700 hover:border-[#E31837] hover:text-[#E31837]'
+            }`}
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            onClick={() => { onWantsToCommentChange(false); onChange(''); }}
+            className={`flex-1 h-11 rounded-lg border-2 text-sm font-semibold transition-all ${
+              wantsToComment === false
+                ? 'bg-[#E31837] border-[#E31837] text-white'
+                : 'border-gray-200 text-gray-700 hover:border-[#E31837] hover:text-[#E31837]'
+            }`}
+          >
+            No
+          </button>
+        </div>
       </div>
+
+      {/* Comment block — only shown when Yes is selected */}
+      {wantsToComment === true && (
+        <div className="space-y-2 sm:space-y-3">
+          <Textarea
+            id="feedback"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Share your thoughts with us..."
+            className="min-h-[120px] sm:min-h-[140px] text-base border-gray-200 focus:border-[#E31837] focus:ring-[#E31837]"
+          />
+        </div>
+      )}
+
+      {/* Consent checkbox */}
       <div className="flex items-start gap-3 p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-lg">
         <Checkbox
           id="consent"
