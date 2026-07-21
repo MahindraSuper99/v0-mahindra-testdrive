@@ -26,6 +26,7 @@ export default function App() {
   // Dissatisfaction reasons (only shown if OSAT is Poor/Unacceptable)
   const [dissatisfactionReason, setDissatisfactionReason] = useState([]);
   const [otherReasonText, setOtherReasonText] = useState('');
+  const [facilityValue, setFacilityValue] = useState('');
   // Q4: Additional Feedback
   const [additionalFeedback, setAdditionalFeedback] = useState('');
   const [wantsToComment, setWantsToComment] = useState(null);
@@ -136,6 +137,7 @@ export default function App() {
         vehicleSatisfaction: vehicleSatisfaction,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
+        unsatisfactoryFacility: dissatisfactionReason.includes('Dealership Amenities not satisfactory') && facilityValue ? facilityValue : null,
         otherReasonDetail: dissatisfactionReason.includes('Other') ? sanitizeInput(otherReasonText) : null,
         hasLowRating: hasLowRating(),
         notes: sanitizeInput(additionalFeedback),
@@ -369,7 +371,7 @@ export default function App() {
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
             {currentStep === 1 && <RatingButtons options={vehicleSatOptions} selected={vehicleSatisfaction} onChange={setVehicleSatisfaction} />}
             {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
-            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} />}
+            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
             {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
               <FeedbackTextarea
                 value={additionalFeedback}
