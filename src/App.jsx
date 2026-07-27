@@ -298,7 +298,7 @@ export default function App() {
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>To improve our vehicles, products and services</li>
                     <li>To address any concerns or issues raised in your feedback</li>
-                    <li>To generate anonymised statistical reports</li>
+                    <li>To generate anonymous statistical reports</li>
                     <li>To follow up on low satisfaction ratings</li>
                   </ul>
                   <p><strong>Your rights:</strong></p>
