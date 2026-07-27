@@ -1,7 +1,7 @@
 import { cn } from '@lib/utils';
 import { Check } from 'lucide-react';
 
-export default function RatingButtons({ options, selected, onChange }) {
+export default function RatingButtons({ options, selected, onChange, hideSelection = false }) {
   return (
     <div className="space-y-3">
       <div className="flex flex-col gap-2 sm:hidden">
@@ -40,7 +40,7 @@ export default function RatingButtons({ options, selected, onChange }) {
           </button>
         ))}
       </div>
-      {selected && (
+      {selected && !hideSelection && (
         <div className="text-center pt-3 border-t border-gray-100">
           <p className="text-sm text-gray-600">
             You selected: <span className="font-bold text-[#1a1a1a]">{selected}</span>

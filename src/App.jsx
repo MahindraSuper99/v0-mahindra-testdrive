@@ -19,8 +19,10 @@ export default function App() {
   const [isComplete, setIsComplete] = useState(false);
   const [validationError, setValidationError] = useState('');
 
-  // Q1: Vehicle Performance Satisfaction (1-5)
-  const [vehicleSatisfaction, setVehicleSatisfaction] = useState(null);
+  // Q1: Vehicle sub-ratings
+  const [vehiclePerformance, setVehiclePerformance] = useState(null);
+  const [vehicleComfort, setVehicleComfort] = useState(null);
+  const [vehicleFeatures, setVehicleFeatures] = useState(null);
   // Q2: Overall Test Drive OSAT (1-5)
   const [overallExperience, setOverallExperience] = useState(null);
   // Dissatisfaction reasons (only shown if OSAT is Poor/Unacceptable)
@@ -51,10 +53,12 @@ export default function App() {
     return new Date() > expiryDate;
   }, []);
 
+  const isLowVehicleRating = (val) => val === 'Dissatisfied' || val === 'Very Dissatisfied';
+
   const hasLowRating = () => {
-    const lowVehicleSat = vehicleSatisfaction === 'Dissatisfied' || vehicleSatisfaction === 'Very Dissatisfied';
+    const lowVehicle = isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures);
     const lowOSAT = overallExperience === 'Poor' || overallExperience === 'Unacceptable';
-    return lowVehicleSat || lowOSAT;
+    return lowVehicle || lowOSAT;
   };
 
   const needsReasonStep = overallExperience === 'Poor' || overallExperience === 'Unacceptable';
@@ -89,7 +93,7 @@ export default function App() {
   ];
 
   const canProceed = () => {
-    if (currentStep === 1) return vehicleSatisfaction !== null;
+    if (currentStep === 1) return vehiclePerformance !== null && vehicleComfort !== null && vehicleFeatures !== null;
     if (currentStep === 2) return overallExperience !== null;
     if (currentStep === 3 && needsReasonStep) {
       if (dissatisfactionReason.length === 0) return false;
@@ -134,7 +138,9 @@ export default function App() {
         submittedDate: now.toISOString(),
         responseType: 'Test Drive Feedback',
         reviewStatus: 'New',
-        vehicleSatisfaction: vehicleSatisfaction,
+        vehiclePerformance: vehiclePerformance,
+        vehicleComfort: vehicleComfort,
+        vehicleFeatures: vehicleFeatures,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
         unsatisfactoryFacility: dissatisfactionReason.includes('Dealership Amenities not satisfactory') && facilityValue ? facilityValue : null,
@@ -166,14 +172,14 @@ export default function App() {
 
   const getStepTitle = () => {
     const at = dealerName ? ` at ${dealerName}` : '';
-    if (currentStep === 1) return `How satisfied were you with the vehicle's performance, comfort, and features during the test drive${at}?`;
+    if (currentStep === 1) return `During the test drive${at}, how satisfied were you with the vehicle's:`;
     if (currentStep === 2) return `How would you rate your overall Test Drive Experience${at}?`;
     if (currentStep === 3 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
     return `Would you like to share any additional feedback about your test drive${at}?`;
   };
 
   const getStepDescription = () => {
-    if (currentStep === 1) return 'Rate your experience with the Mahindra vehicle during your test drive';
+    if (currentStep === 1) return 'Please rate each aspect of the vehicle separately';
     if (currentStep === 2) return 'Rate your overall test drive experience at the dealership';
     if (currentStep === 3 && needsReasonStep) return 'You may select more than one reason';
     return 'Optional - Share any additional comments about your test drive';
@@ -369,7 +375,20 @@ export default function App() {
             <p className="text-xs sm:text-sm text-gray-500 mt-1">{getStepDescription()}</p>
           </CardHeader>
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
-            {currentStep === 1 && <RatingButtons options={vehicleSatOptions} selected={vehicleSatisfaction} onChange={setVehicleSatisfaction} />}
+            {currentStep === 1 && (
+              <div className="space-y-6">
+                {[
+                  { label: '(a) overall performance', value: vehiclePerformance, setter: setVehiclePerformance },
+                  { label: '(b) level of comfort', value: vehicleComfort, setter: setVehicleComfort },
+                  { label: '(c) features', value: vehicleFeatures, setter: setVehicleFeatures },
+                ].map(({ label, value, setter }) => (
+                  <div key={label}>
+                    <p className="text-sm text-gray-600 mb-2">{label}</p>
+                    <RatingButtons options={vehicleSatOptions} selected={value} onChange={setter} hideSelection />
+                  </div>
+                ))}
+              </div>
+            )}
             {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
             {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
             {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
