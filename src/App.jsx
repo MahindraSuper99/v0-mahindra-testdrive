@@ -136,6 +136,8 @@ export default function App() {
         surveyId: surveyId,
         dealer: dealerName,
         submittedDate: now.toISOString(),
+        submittedDateLocal: now.toLocaleString('en-ZA', { dateStyle: 'full', timeStyle: 'short' }),
+        device: navigator.userAgent,
         responseType: 'Test Drive Feedback',
         reviewStatus: 'New',
         vehiclePerformance: vehiclePerformance,
@@ -273,15 +275,15 @@ export default function App() {
                   <p><strong>What we collect:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>Your satisfaction ratings and feedback responses</li>
-                    <li>Survey completion timestamp</li>
-                    <li>Device and browser information for survey functionality</li>
+                    <li>Date and time the survey was completed</li>
+                    <li>Device and browser used to complete the survey</li>
                   </ul>
                   <p><strong>How we use your information:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>To improve our vehicles, products and services</li>
                     <li>To address any concerns or issues raised in your feedback</li>
                     <li>To generate anonymised statistical reports</li>
-                    <li>To follow up on low satisfaction ratings (CCCF process)</li>
+                    <li>To follow up on low satisfaction ratings</li>
                   </ul>
                   <p><strong>Your rights:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
