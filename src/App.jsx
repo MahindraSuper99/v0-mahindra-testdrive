@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ResponsesBoard } from '@api/BoardSDK.js';
 import { Card, CardContent, CardHeader, CardTitle, Button, Checkbox, Label } from './components/ui-mock';
 import ProgressStepper from './components/ProgressStepper';
@@ -33,6 +33,16 @@ export default function App() {
   const [additionalFeedback, setAdditionalFeedback] = useState('');
   const [wantsToComment, setWantsToComment] = useState(null);
   const [feedbackConsent, setFeedbackConsent] = useState(false);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  const formattedDateTime = currentTime.toLocaleString('en-ZA', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  });
 
   const surveyId = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -236,6 +246,12 @@ export default function App() {
                 </p>
               </div>
 
+              {/* Live date & time */}
+              <div className="flex items-center justify-center gap-2 mb-5 px-3 py-2 bg-gray-50 rounded-lg">
+                <Clock className="w-4 h-4 text-[#E31837] flex-shrink-0" />
+                <p className="text-xs sm:text-sm text-gray-600">{formattedDateTime}</p>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 sm:mb-8">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <Clock className="w-5 h-5 text-[#E31837] flex-shrink-0" />
@@ -349,6 +365,7 @@ export default function App() {
             <CheckCircle2 className="w-16 h-16 sm:w-20 sm:h-20 text-[#00c875] mx-auto mb-4" />
             <h2 className="text-xl sm:text-2xl font-bold mb-2 text-[#1a1a1a]">Thank you for your feedback!</h2>
             <p className="text-sm sm:text-base text-gray-600 mb-2">Your responses have been recorded securely.</p>
+            <p className="text-xs text-gray-400 mb-3">Submitted: {formattedDateTime}</p>
             <p className="text-xs text-gray-500">
               Your personal information is protected in accordance with POPIA.
               {hasLowRating() && ' A customer care representative may contact you to address your concerns.'}
