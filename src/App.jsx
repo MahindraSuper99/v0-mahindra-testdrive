@@ -378,9 +378,9 @@ export default function App() {
             {currentStep === 1 && (
               <div className="space-y-6">
                 {[
-                  { label: '(a) overall performance', value: vehiclePerformance, setter: setVehiclePerformance },
-                  { label: '(b) level of comfort', value: vehicleComfort, setter: setVehicleComfort },
-                  { label: '(c) features', value: vehicleFeatures, setter: setVehicleFeatures },
+                  { label: 'a) Overall performance', value: vehiclePerformance, setter: setVehiclePerformance },
+                  { label: 'b) Level of comfort', value: vehicleComfort, setter: setVehicleComfort },
+                  { label: 'c) Features', value: vehicleFeatures, setter: setVehicleFeatures },
                 ].map(({ label, value, setter }) => (
                   <div key={label}>
                     <p className="text-sm text-gray-600 mb-2">{label}</p>
