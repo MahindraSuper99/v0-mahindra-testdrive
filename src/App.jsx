@@ -235,12 +235,6 @@ export default function App() {
         <div className="py-6 sm:py-10 px-4 sm:px-6 max-w-2xl mx-auto">
           <Card className="bg-white shadow-xl">
             <CardContent className="p-6 sm:p-8">
-              {/* Live date & time */}
-              <div className="flex items-center justify-center gap-2 mb-5 px-3 py-2 bg-gray-50 rounded-lg">
-                <Clock className="w-4 h-4 text-[#E31837] flex-shrink-0" />
-                <p className="text-xs sm:text-sm text-gray-600">{formattedDateTime}</p>
-              </div>
-
               <div className="text-center mb-6 sm:mb-8">
                 <img src="/mahindra-logo.webp" alt="Mahindra" className="h-12 sm:h-16 w-auto mx-auto mb-4" />
                 <h1 className="text-xl sm:text-2xl font-bold text-[#1a1a1a] mb-1">
@@ -250,6 +244,12 @@ export default function App() {
                 <p className="text-sm sm:text-base text-gray-600">
                   Thank you for test driving a Mahindra. Your feedback helps us improve our vehicles and services.
                 </p>
+              </div>
+
+              {/* Live date & time */}
+              <div className="flex items-center justify-center gap-2 mb-5 px-3 py-2 bg-gray-50 rounded-lg">
+                <Clock className="w-4 h-4 text-[#E31837] flex-shrink-0" />
+                <p className="text-xs sm:text-sm text-gray-600">{formattedDateTime}</p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 sm:mb-8">
