@@ -29,6 +29,7 @@ export default function App() {
   const [dissatisfactionReason, setDissatisfactionReason] = useState([]);
   const [otherReasonText, setOtherReasonText] = useState('');
   const [facilityValue, setFacilityValue] = useState('');
+  const [vehicleLowFeedback, setVehicleLowFeedback] = useState('');
   // Q4: Additional Feedback
   const [additionalFeedback, setAdditionalFeedback] = useState('');
   const [wantsToComment, setWantsToComment] = useState(null);
@@ -153,6 +154,7 @@ export default function App() {
         vehiclePerformance: vehiclePerformance,
         vehicleComfort: vehicleComfort,
         vehicleFeatures: vehicleFeatures,
+        vehicleLowRatingFeedback: vehicleLowFeedback ? sanitizeInput(vehicleLowFeedback) : null,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
         unsatisfactoryFacility: dissatisfactionReason.includes('Dealership Amenities not satisfactory') && facilityValue ? facilityValue : null,
@@ -406,6 +408,20 @@ export default function App() {
                     <RatingButtons options={vehicleSatOptions} selected={value} onChange={setter} hideSelection />
                   </div>
                 ))}
+                {(isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures)) && (
+                  <div className="pt-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Would you like to tell us more? <span className="text-gray-400 font-normal">(optional)</span>
+                    </label>
+                    <textarea
+                      value={vehicleLowFeedback}
+                      onChange={(e) => setVehicleLowFeedback(e.target.value)}
+                      placeholder="Please share any additional details about your experience..."
+                      rows={3}
+                      className="w-full rounded-lg border-2 border-gray-200 p-3 text-sm text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#E31837] resize-none"
+                    />
+                  </div>
+                )}
               </div>
             )}
             {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
