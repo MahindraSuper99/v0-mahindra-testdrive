@@ -63,7 +63,7 @@ export default function App() {
     return new Date() > expiryDate;
   }, []);
 
-  const isLowVehicleRating = (val) => val === 'Dissatisfied' || val === 'Very Dissatisfied';
+  const isLowVehicleRating = (val) => val === 'Poor' || val === 'Unacceptable';
 
   const hasLowRating = () => {
     const lowVehicle = isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures);
@@ -75,11 +75,11 @@ export default function App() {
   const totalSteps = needsReasonStep ? 4 : 3;
 
   const vehicleSatOptions = [
-    { label: 'Very Satisfied', color: 'bg-[#00c875]' },
-    { label: 'Satisfied', color: 'bg-[#9cd326]' },
-    { label: 'Neutral', color: 'bg-[#fdab3d]' },
-    { label: 'Dissatisfied', color: 'bg-[#ff7b5c]' },
-    { label: 'Very Dissatisfied', color: 'bg-[#e2445c]' },
+    { label: 'Excellent', color: 'bg-[#00c875]' },
+    { label: 'Good', color: 'bg-[#9cd326]' },
+    { label: 'Fair', color: 'bg-[#fdab3d]' },
+    { label: 'Poor', color: 'bg-[#ff7b5c]' },
+    { label: 'Unacceptable', color: 'bg-[#e2445c]' },
   ];
 
   const osatOptions = [
