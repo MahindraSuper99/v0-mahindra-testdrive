@@ -186,7 +186,7 @@ export default function App() {
 
   const getStepTitle = () => {
     const at = dealerName ? ` at ${dealerName}` : '';
-    if (currentStep === 1) return `During the test drive${at}, how satisfied were you with the vehicle's:`;
+    if (currentStep === 1) return `Based on your test drive${at}, how would you rate the following aspects of the vehicle?`;
     if (currentStep === 2) return `How would you rate your overall Test Drive Experience${at}?`;
     if (currentStep === 3 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
     return `Would you like to share any additional feedback about your test drive${at}?`;
