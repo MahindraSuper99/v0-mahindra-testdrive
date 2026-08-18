@@ -202,7 +202,7 @@ export default function App() {
     if (currentStep === 1) return 'Please rate each aspect of the vehicle separately';
     if (currentStep === 2) return 'Rate your overall test drive experience at the dealership';
     if (currentStep === 3 && needsReasonStep) return 'You may select more than one reason';
-    return 'Optional - Share any additional comments about your test drive';
+    return '';
   };
 
   const Header = () => (
