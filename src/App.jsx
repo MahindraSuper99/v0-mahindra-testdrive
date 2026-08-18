@@ -111,6 +111,8 @@ export default function App() {
       if (dissatisfactionReason.includes('Other') && !otherReasonText.trim()) return false;
       return true;
     }
+    // Feedback step — if Yes selected, comment is required
+    if (wantsToComment === true && !additionalFeedback.trim()) return false;
     return true;
   };
 

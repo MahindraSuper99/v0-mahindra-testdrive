@@ -38,6 +38,9 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
       {/* Comment block — only shown when Yes is selected */}
       {wantsToComment === true && (
         <div className="space-y-2 sm:space-y-3">
+          <label className="block text-xs font-medium text-gray-600">
+            Your comment <span className="text-[#E31837]">*</span>
+          </label>
           <Textarea
             id="feedback"
             value={value}
@@ -45,6 +48,9 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
             placeholder="Share your thoughts with us..."
             className="min-h-[120px] sm:min-h-[140px] text-base border-gray-200 focus:border-[#E31837] focus:ring-[#E31837]"
           />
+          {!value.trim() && (
+            <p className="text-xs text-[#E31837]">Please enter your comment to continue.</p>
+          )}
         </div>
       )}
 
