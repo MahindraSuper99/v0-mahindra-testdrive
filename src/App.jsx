@@ -137,6 +137,10 @@ export default function App() {
   };
 
   const handleSubmit = async () => {
+    if (wantsToComment === true && !additionalFeedback.trim()) {
+      setValidationError('Please enter your comment before submitting');
+      return;
+    }
     if (!feedbackConsent) {
       setValidationError('Please consent to data usage before submitting');
       return;
