@@ -7,7 +7,7 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
       {/* Yes / No question */}
       <div className="space-y-3">
         <p className="text-sm font-medium text-[#1a1a1a]">
-          Would you like to leave a comment? <span className="font-normal text-gray-500">(optional)</span>
+          Would you like to leave a comment? <span className={`font-normal ${wantsToComment === true ? 'text-[#E31837]' : 'text-gray-500'}`}>({wantsToComment === true ? 'mandatory' : 'optional'})</span>
         </p>
         <div className="flex gap-3">
           <button
