@@ -111,8 +111,8 @@ export default function App() {
       if (dissatisfactionReason.includes('Other') && !otherReasonText.trim()) return false;
       return true;
     }
-    // Feedback step — if Yes selected, comment is required
-    if (wantsToComment === true && !additionalFeedback.trim()) return false;
+    // Feedback step — comment is mandatory
+    if (!additionalFeedback.trim()) return false;
     return true;
   };
 
@@ -137,7 +137,7 @@ export default function App() {
   };
 
   const handleSubmit = async () => {
-    if (wantsToComment === true && !additionalFeedback.trim()) {
+    if (!additionalFeedback.trim()) {
       setValidationError('Please enter your comment before submitting');
       return;
     }
@@ -195,14 +195,14 @@ export default function App() {
     if (currentStep === 1) return `Based on your test drive${at}, how would you rate the following aspects of the vehicle?`;
     if (currentStep === 2) return `How would you rate your overall Test Drive Experience${at}?`;
     if (currentStep === 3 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
-    return `Would you like to share any additional feedback about your test drive${at}?`;
+    return `Please leave your comment about your test drive${at}`;
   };
 
   const getStepDescription = () => {
     if (currentStep === 1) return 'Please rate each aspect of the vehicle separately';
     if (currentStep === 2) return 'Rate your overall test drive experience at the dealership';
     if (currentStep === 3 && needsReasonStep) return 'You may select more than one reason';
-    return 'Optional - Share any additional comments about your test drive';
+    return 'Mandatory - Please share your comments about your test drive experience';
   };
 
   const Header = () => (
@@ -438,9 +438,6 @@ export default function App() {
                 onChange={setAdditionalFeedback}
                 consent={feedbackConsent}
                 onConsentChange={setFeedbackConsent}
-                isRequired={false}
-                wantsToComment={wantsToComment}
-                onWantsToCommentChange={setWantsToComment}
               />
             )}
 
