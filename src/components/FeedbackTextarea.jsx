@@ -49,7 +49,7 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
             className="min-h-[120px] sm:min-h-[140px] text-base border-gray-200 focus:border-[#E31837] focus:ring-[#E31837]"
           />
           {!value.trim() && (
-            <p className="text-xs text-[#E31837]">Please enter your comment to continue.</p>
+            <p className="text-xs text-[#E31837]">This field is mandatory. Please enter your comment to continue.</p>
           )}
         </div>
       )}
