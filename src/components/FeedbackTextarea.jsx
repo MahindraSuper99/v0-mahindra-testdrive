@@ -8,7 +8,6 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
       <div className="space-y-3">
         <p className="text-sm font-medium text-[#1a1a1a]">
           Would you like to leave a comment?{' '}
-          {wantsToComment === null && <span className="font-normal text-gray-500">(optional)</span>}
           {wantsToComment === true && <span className="font-normal text-[#E31837]">(mandatory)</span>}
         </p>
         <div className="flex gap-3">
