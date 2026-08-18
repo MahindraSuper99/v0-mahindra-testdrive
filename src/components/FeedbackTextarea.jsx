@@ -7,7 +7,9 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
       {/* Yes / No question */}
       <div className="space-y-3">
         <p className="text-sm font-medium text-[#1a1a1a]">
-          Would you like to leave a comment? <span className={`font-normal ${wantsToComment === true ? 'text-[#E31837]' : 'text-gray-500'}`}>({wantsToComment === true ? 'mandatory' : 'optional'})</span>
+          Would you like to leave a comment?{' '}
+          {wantsToComment === null && <span className="font-normal text-gray-500">(optional)</span>}
+          {wantsToComment === true && <span className="font-normal text-[#E31837]">(mandatory)</span>}
         </p>
         <div className="flex gap-3">
           <button
@@ -35,7 +37,7 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
         </div>
       </div>
 
-      {/* Comment block — only shown when Yes is selected */}
+      {/* Comment box — only when Yes */}
       {wantsToComment === true && (
         <div className="space-y-2 sm:space-y-3">
           <label className="block text-xs font-medium text-gray-600">
@@ -54,18 +56,20 @@ export default function FeedbackTextarea({ value, onChange, consent, onConsentCh
         </div>
       )}
 
-      {/* Consent checkbox */}
-      <div className="flex items-start gap-3 p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-lg">
-        <Checkbox
-          id="consent"
-          checked={consent}
-          onCheckedChange={onConsentChange}
-          className="mt-0.5 h-5 w-5 border-gray-300 data-[state=checked]:bg-[#E31837] data-[state=checked]:border-[#E31837]"
-        />
-        <Label htmlFor="consent" className="text-xs sm:text-sm font-normal cursor-pointer leading-relaxed text-gray-700">
-          <span className="text-[#E31837] font-medium">Required:</span> I consent to Mahindra South Africa processing my feedback in accordance with POPIA. I understand this may include follow-up contact if I have indicated dissatisfaction, and my responses may be used to improve products and services.
-        </Label>
-      </div>
+      {/* Consent checkbox — only shown once Yes or No is chosen */}
+      {wantsToComment !== null && (
+        <div className="flex items-start gap-3 p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <Checkbox
+            id="consent"
+            checked={consent}
+            onCheckedChange={onConsentChange}
+            className="mt-0.5 h-5 w-5 border-gray-300 data-[state=checked]:bg-[#E31837] data-[state=checked]:border-[#E31837]"
+          />
+          <Label htmlFor="consent" className="text-xs sm:text-sm font-normal cursor-pointer leading-relaxed text-gray-700">
+            <span className="text-[#E31837] font-medium">Required:</span> I consent to Mahindra South Africa processing my feedback in accordance with POPIA. I understand this may include follow-up contact if I have indicated dissatisfaction, and my responses may be used to improve products and services.
+          </Label>
+        </div>
+      )}
     </div>
   );
 }
