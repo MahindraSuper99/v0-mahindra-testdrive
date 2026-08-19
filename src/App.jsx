@@ -105,11 +105,13 @@ export default function App() {
 
   const canProceed = () => {
     if (currentStep === 1) return overallExperience !== null;
-    if (currentStep === 2) return vehiclePerformance !== null && vehicleComfort !== null && vehicleFeatures !== null;
-    if (currentStep === 3 && needsReasonStep) {
+    if (currentStep === 2 && needsReasonStep) {
       if (dissatisfactionReason.length === 0) return false;
       if (dissatisfactionReason.includes('Other') && !otherReasonText.trim()) return false;
       return true;
+    }
+    if ((currentStep === 2 && !needsReasonStep) || (currentStep === 3 && needsReasonStep)) {
+      return vehiclePerformance !== null && vehicleComfort !== null && vehicleFeatures !== null;
     }
     // Feedback step — if Yes selected, comment is required
     if (wantsToComment === true && !additionalFeedback.trim()) return false;
@@ -193,15 +195,15 @@ export default function App() {
   const getStepTitle = () => {
     const at = dealerName ? ` at ${dealerName}` : '';
     if (currentStep === 1) return `How would you rate your overall Test Drive Experience${at}?`;
-    if (currentStep === 2) return `Based on your test drive${at}, how would you rate the following aspects of the vehicle?`;
-    if (currentStep === 3 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
+    if (currentStep === 2 && needsReasonStep) return `Please select the primary reason(s) for your dissatisfaction${at}`;
+    if ((currentStep === 2 && !needsReasonStep) || (currentStep === 3 && needsReasonStep)) return `Based on your test drive${at}, how would you rate the following aspects of the vehicle?`;
     return `Would you like to share any additional feedback about your test drive${at}?`;
   };
 
   const getStepDescription = () => {
     if (currentStep === 1) return 'Rate your overall test drive experience at the dealership';
-    if (currentStep === 2) return 'Please rate each aspect of the vehicle separately';
-    if (currentStep === 3 && needsReasonStep) return 'You may select more than one reason';
+    if (currentStep === 2 && needsReasonStep) return 'You may select more than one reason';
+    if ((currentStep === 2 && !needsReasonStep) || (currentStep === 3 && needsReasonStep)) return 'Please rate each aspect of the vehicle separately';
     return '';
   };
 
@@ -403,7 +405,8 @@ export default function App() {
           </CardHeader>
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
             {currentStep === 1 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
-            {currentStep === 2 && (
+            {currentStep === 2 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
+            {((currentStep === 2 && !needsReasonStep) || (currentStep === 3 && needsReasonStep)) && (
               <div className="space-y-6">
                 {[
                   { label: 'a) Overall performance', value: vehiclePerformance, setter: setVehiclePerformance },
@@ -417,7 +420,6 @@ export default function App() {
                 ))}
               </div>
             )}
-            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
             {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
               <div className="space-y-6">
                 {(isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures)) && (
