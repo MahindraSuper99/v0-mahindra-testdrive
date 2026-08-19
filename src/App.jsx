@@ -29,7 +29,9 @@ export default function App() {
   const [dissatisfactionReason, setDissatisfactionReason] = useState([]);
   const [otherReasonText, setOtherReasonText] = useState('');
   const [facilityValue, setFacilityValue] = useState('');
-  const [vehicleLowFeedback, setVehicleLowFeedback] = useState('');
+  const [vehiclePerformanceFeedback, setVehiclePerformanceFeedback] = useState('');
+  const [vehicleComfortFeedback, setVehicleComfortFeedback] = useState('');
+  const [vehicleFeaturesFeedback, setVehicleFeaturesFeedback] = useState('');
   // Q4: Additional Feedback
   const [additionalFeedback, setAdditionalFeedback] = useState('');
   const [wantsToComment, setWantsToComment] = useState(null);
@@ -162,7 +164,9 @@ export default function App() {
         vehiclePerformance: vehiclePerformance,
         vehicleComfort: vehicleComfort,
         vehicleFeatures: vehicleFeatures,
-        vehicleLowRatingFeedback: vehicleLowFeedback ? sanitizeInput(vehicleLowFeedback) : null,
+        vehiclePerformanceFeedback: vehiclePerformanceFeedback ? sanitizeInput(vehiclePerformanceFeedback) : null,
+        vehicleComfortFeedback: vehicleComfortFeedback ? sanitizeInput(vehicleComfortFeedback) : null,
+        vehicleFeaturesFeedback: vehicleFeaturesFeedback ? sanitizeInput(vehicleFeaturesFeedback) : null,
         overallExperience: overallExperience,
         dissatisfactionReasons: dissatisfactionReason.length > 0 ? dissatisfactionReason : null,
         unsatisfactoryFacility: dissatisfactionReason.includes('Dealership Amenities not satisfactory') && facilityValue ? facilityValue : null,
@@ -409,33 +413,30 @@ export default function App() {
             {((currentStep === 2 && !needsReasonStep) || (currentStep === 3 && needsReasonStep)) && (
               <div className="space-y-6">
                 {[
-                  { label: 'a) Overall performance', value: vehiclePerformance, setter: setVehiclePerformance },
-                  { label: 'b) Level of comfort', value: vehicleComfort, setter: setVehicleComfort },
-                  { label: 'c) Features', value: vehicleFeatures, setter: setVehicleFeatures },
-                ].map(({ label, value, setter }) => (
+                  { label: 'a) Overall performance', value: vehiclePerformance, setter: setVehiclePerformance, feedback: vehiclePerformanceFeedback, setFeedback: setVehiclePerformanceFeedback },
+                  { label: 'b) Level of comfort', value: vehicleComfort, setter: setVehicleComfort, feedback: vehicleComfortFeedback, setFeedback: setVehicleComfortFeedback },
+                  { label: 'c) Features', value: vehicleFeatures, setter: setVehicleFeatures, feedback: vehicleFeaturesFeedback, setFeedback: setVehicleFeaturesFeedback },
+                ].map(({ label, value, setter, feedback, setFeedback }) => (
                   <div key={label}>
                     <p className="text-sm text-gray-600 mb-2">{label}</p>
                     <RatingButtons options={vehicleSatOptions} selected={value} onChange={setter} hideSelection />
+                    {isLowVehicleRating(value) && (
+                      <div className="mt-2">
+                        <textarea
+                          value={feedback}
+                          onChange={(e) => setFeedback(e.target.value)}
+                          placeholder="Please elaborate on your rating... (optional)"
+                          rows={2}
+                          className="w-full rounded-lg border-2 border-gray-200 p-3 text-sm text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#E31837] resize-none"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             )}
             {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
               <div className="space-y-6">
-                {(isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures)) && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Would you like to tell us more? <span className="text-gray-400 font-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      value={vehicleLowFeedback}
-                      onChange={(e) => setVehicleLowFeedback(e.target.value)}
-                      placeholder="Please share any additional details about your experience..."
-                      rows={3}
-                      className="w-full rounded-lg border-2 border-gray-200 p-3 text-sm text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#E31837] resize-none"
-                    />
-                  </div>
-                )}
                 <FeedbackTextarea
                 value={additionalFeedback}
                 onChange={setAdditionalFeedback}
