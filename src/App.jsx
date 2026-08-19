@@ -425,7 +425,7 @@ export default function App() {
                         <textarea
                           value={feedback}
                           onChange={(e) => setFeedback(e.target.value)}
-                          placeholder="Please elaborate on your rating... (optional)"
+                          placeholder="Please elaborate on your rating..."
                           rows={2}
                           className="w-full rounded-lg border-2 border-gray-200 p-3 text-sm text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#E31837] resize-none"
                         />
