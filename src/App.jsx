@@ -414,8 +414,14 @@ export default function App() {
                     <RatingButtons options={vehicleSatOptions} selected={value} onChange={setter} hideSelection />
                   </div>
                 ))}
+              </div>
+            )}
+            {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
+            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
+            {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
+              <div className="space-y-6">
                 {(isLowVehicleRating(vehiclePerformance) || isLowVehicleRating(vehicleComfort) || isLowVehicleRating(vehicleFeatures)) && (
-                  <div className="pt-2">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Would you like to tell us more? <span className="text-gray-400 font-normal">(optional)</span>
                     </label>
@@ -428,12 +434,7 @@ export default function App() {
                     />
                   </div>
                 )}
-              </div>
-            )}
-            {currentStep === 2 && <RatingButtons options={osatOptions} selected={overallExperience} onChange={setOverallExperience} />}
-            {currentStep === 3 && needsReasonStep && <ReasonSelector options={reasonOptions} selected={dissatisfactionReason} onChange={setDissatisfactionReason} otherText={otherReasonText} onOtherTextChange={setOtherReasonText} facilityValue={facilityValue} onFacilityChange={setFacilityValue} />}
-            {((currentStep === 3 && !needsReasonStep) || (currentStep === 4 && needsReasonStep)) && (
-              <FeedbackTextarea
+                <FeedbackTextarea
                 value={additionalFeedback}
                 onChange={setAdditionalFeedback}
                 consent={feedbackConsent}
@@ -441,6 +442,7 @@ export default function App() {
                 wantsToComment={wantsToComment}
                 onWantsToCommentChange={setWantsToComment}
               />
+              </div>
             )}
 
             {validationError && (
